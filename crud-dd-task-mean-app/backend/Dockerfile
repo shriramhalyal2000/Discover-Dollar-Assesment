@@ -4,14 +4,14 @@ FROM node:18-slim
 
 WORKDIR /usr/src/app
 
-COPY backend/package*.json ./
+COPY ./package*.json ./
 #installing npm
-RUN npm ci install --silent
+RUN npm install --silent
 
 #copying the backend file on to container work dir from local dir
-COPY backend/ ./
-
+COPY ./ ./
+ENV PORT=8080
 # exposing the backend port
-EXPOSE 3000
+EXPOSE 8080
 # executing the npm start command in container shell
 CMD ["npm", "start"]

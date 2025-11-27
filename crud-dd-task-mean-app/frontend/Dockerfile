@@ -1,13 +1,19 @@
-# dockerfile for front-end using build only
 FROM node:18-alpine AS builder
-# setting work dir inside the container shell
-WORKDIR /App
-# copying the json pacjage files for dependency installation
-COPY frontend/package*.json ./
 
+WORKDIR /app
+
+COPY package*.json ./
 RUN npm ci
 
-# copy the actual code files
-COPY frontend/ ./
-#build stage
-RUN npm run build
+COPY . .
+RUN npm run build -- --configuration production
+
+FROM nginx:alpine
+
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY --from=builder ./ /usr/share/nginx/html/
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
