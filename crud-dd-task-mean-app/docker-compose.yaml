@@ -40,7 +40,7 @@ services:
     networks:
       - app-network
     ports:
-      - "8081:80"     # host port 8081 -> frontend container
+      - "4200:4200"     #mapped both on 4200 host and container later this will be mapped in nginx to accessible at port 80
 
 networks:
   app-network:
