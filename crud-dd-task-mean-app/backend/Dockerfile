@@ -6,10 +6,10 @@ WORKDIR /usr/src/app
 
 COPY ./package*.json ./
 #installing npm
-RUN npm install --silent
+RUN npm install --production --silent
 
 #copying the backend file on to container work dir from local dir
-COPY ./ ./
+COPY . .
 ENV PORT=8080
 # exposing the backend port
 EXPOSE 8080
