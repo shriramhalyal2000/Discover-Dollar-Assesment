@@ -1,19 +1,15 @@
-FROM node:18-alpine AS builder
+# frontend Dockerfile
+
+FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci
+COPY ./package*.json ./
+RUN npm install
 
 COPY . .
-RUN npm run build -- --configuration production
 
-FROM nginx:alpine
+# edited package.jason to include host 0.0.0.0 and port 4200 when it starts
+EXPOSE 4200
 
-RUN rm -rf /usr/share/nginx/html/*
-
-COPY --from=builder ./ /usr/share/nginx/html/
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]
